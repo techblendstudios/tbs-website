@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --gray-100: #F5F5F3;
+  --gray-200: #E8E8E6;
+  --gray-400: #999999;
+  --gray-600: #555555;
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-dm-sans: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font-dm-sans);
+  font-weight: 300;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* ── Custom Cursor ── */
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  background: var(--black);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: difference;
+}
+.cursor.expanded {
+  width: 40px;
+  height: 40px;
+}
+
+/* ── Mark / highlight ── */
+mark {
+  background: none;
+  border-bottom: 2px solid var(--black);
+  padding-bottom: 2px;
+  font-style: normal;
+  color: inherit;
+}
+
+/* ── Section number label ── */
+.section-num {
+  font-family: var(--font-dm-sans);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* ── Thin rule ── */
+.rule {
+  width: 100%;
+  height: 0.5px;
+  background: var(--gray-200);
+  border: none;
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Nav link underline animation ── */
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  color: var(--gray-600);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 0.5px;
+  background: var(--black);
+  transition: width 0.3s ease;
+}
+.nav-link:hover { color: var(--black); }
+.nav-link:hover::after { width: 100%; }
+
+/* ── Service row hover ── */
+.service-row {
+  position: relative;
+  border-top: 0.5px solid var(--gray-200);
+  overflow: hidden;
+}
+.service-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--black);
+  transition: width 0.4s ease;
+}
+.service-row:hover::after { width: 100%; }
+
+/* ── Plan card invert ── */
+.plan-card {
+  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+  border: 1px solid var(--gray-200);
+}
+.plan-card:hover {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+.plan-card:hover .plan-price,
+.plan-card:hover .plan-name,
+.plan-card:hover .plan-feature,
+.plan-card:hover .plan-cat,
+.plan-card:hover .plan-cta,
+.plan-card:hover .plan-note {
+  color: var(--white) !important;
+}
+.plan-card:hover .plan-rule { background: rgba(255,255,255,0.15); }
+.plan-card:hover .plan-check { color: rgba(255,255,255,0.5); }
+
+/* ── Video card ── */
+.video-card { position: relative; overflow: hidden; background: var(--black); }
+.video-card img,
+.video-card video {
+  position: absolute;
+  inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+}
+.video-card .thumb { transition: opacity 0.4s ease; z-index: 1; }
+.video-card video { opacity: 0; transition: opacity 0.4s ease; z-index: 2; }
+.video-card:hover .thumb { opacity: 0; }
+.video-card:hover video { opacity: 1; }
+
+/* ── Filter pill ── */
+.filter-pill {
+  font-family: var(--font-dm-sans);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border: 0.5px solid var(--gray-200);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  background: transparent;
+  color: var(--gray-600);
+}
+.filter-pill:hover,
+.filter-pill.active {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+
+/* ── Team card ── */
+.team-card .team-img {
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--black);
+}
+.team-card .team-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.team-card:hover .team-img img { transform: scale(1.03); }
+
+/* ── CTA text link ── */
+.cta-link {
+  font-family: var(--font-dm-sans);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--black);
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+.cta-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 100%; height: 0.5px;
+  background: var(--black);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.cta-link:hover::after { transform: scaleX(1.05); }
+
+/* ── Mobile menu overlay ── */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.mobile-menu.open { transform: translateY(0); }
+.mobile-menu a {
+  font-family: var(--font-cormorant);
+  font-size: clamp(36px, 8vw, 56px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  text-decoration: none;
+}
