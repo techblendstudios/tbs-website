@@ -75,7 +75,7 @@ export default function Hero() {
               marginBottom: "40px",
             }}
           >
-            Pune, India — Est. 2025
+            Pune, India — Est. 2026
           </motion.span>
 
           <motion.h1
