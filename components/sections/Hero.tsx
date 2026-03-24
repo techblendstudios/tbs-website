@@ -2,7 +2,9 @@
 import { motion } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
-const fade = (delay: number) => ({
+  // Animation configuration for fade-in effects
+  // Delay controls the timing of each element's entrance animation
+  const fade = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] },
