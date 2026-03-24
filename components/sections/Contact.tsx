@@ -62,7 +62,7 @@ export default function Contact() {
           >
             {/* Replace with your real WhatsApp number */}
             <a
-              href="https://wa.me/919XXXXXXXXX"
+              href="https://wa.me/919370047990"
               target="_blank"
               rel="noopener noreferrer"
               className="cta-link"
@@ -73,7 +73,7 @@ export default function Contact() {
             </a>
             {/* Replace with your real email */}
             <a
-              href="mailto:hello@techblendstudios.com"
+              href="mailto:techblendstudios.tbs@gmail.com"
               className="cta-link"
               data-cursor
               style={{ fontSize: "18px" }}

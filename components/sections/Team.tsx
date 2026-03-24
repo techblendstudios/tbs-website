@@ -28,9 +28,10 @@ interface TeamMember {
   imageUrl?: string;
   linkedin?: string;
   instagram?: string;
+  twitter?: string;
 }
 
-function TeamCard({ name, role, bio, isCoFounder, imageUrl, linkedin, instagram }: TeamMember) {
+function TeamCard({ name, role, bio, isCoFounder, imageUrl, linkedin, instagram, twitter }: TeamMember) {
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -179,6 +180,18 @@ function TeamCard({ name, role, bio, isCoFounder, imageUrl, linkedin, instagram 
                 Instagram ↗
               </a>
             )}
+            {twitter && (
+              <a
+                href={twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-link"
+                style={{ fontSize: "12px", color: "#999" }}
+                data-cursor
+              >
+                Twitter ↗
+              </a>
+            )}
           </div>
         )}
       </div>
@@ -189,50 +202,52 @@ function TeamCard({ name, role, bio, isCoFounder, imageUrl, linkedin, instagram 
 // ── Replace all placeholder names and bios with your real team ──
 const coFounders: TeamMember[] = [
   {
-    name: "[Co-founder Name 1]",
+    name: "Abhijit Shinde",
     role: "Creative Director",
     bio: "Leads all creative output — from concept to final render. Obsessed with brand storytelling and visual precision.",
     isCoFounder: true,
-    imageUrl: "",   // → "/team/cofounder-1.jpg" or Cloudinary URL
-    linkedin: "#",
-    instagram: "#",
+    imageUrl: "https://res.cloudinary.com/dg0m5ckk4/image/upload/v1774341786/co-founder1_cadltd.png",   // → "/team/cofounder-1.jpg" or Cloudinary URL
+    linkedin: "https://www.linkedin.com/in/abhijeet-shinde-b94a70271?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    instagram: "https://www.instagram.com/_abhijitshinde_",
+    // twitter: "https://x.com",
   },
   {
-    name: "[Co-founder Name 2]",
+    name: "Atharva Hegade",
     role: "Strategy & Growth",
     bio: "Drives client strategy, campaign planning and business development. Focused on results that actually move revenue.",
     isCoFounder: true,
-    imageUrl: "",   // → "/team/cofounder-2.jpg" or Cloudinary URL
-    linkedin: "#",
+    imageUrl: "https://res.cloudinary.com/dg0m5ckk4/image/upload/v1774341785/co-founder2_xaxbhd.png",   // → "/team/cofounder-2.jpg" or Cloudinary URL
+    linkedin: "https://www.linkedin.com/in/atharvahegade/",
+    twitter: "https://x.com/atharvafx",
   },
 ];
 
-const teamMembers: TeamMember[] = [
-  {
-    name: "[Name]",
-    role: "Motion Graphics & CGI Lead",
-    bio: "Creates reels, 3D renders and animations that stop the scroll. Handles all video post-production.",
-    imageUrl: "",
-  },
-  {
-    name: "[Name]",
-    role: "Web Developer",
-    bio: "Builds fast, animated, conversion-focused websites. Next.js specialist with an eye for design.",
-    imageUrl: "",
-  },
-  {
-    name: "[Name]",
-    role: "Content Strategist",
-    bio: "Writes copy that ranks, resonates and converts. SEO-led scripts, captions and long-form content.",
-    imageUrl: "",
-  },
-  {
-    name: "[Name]",
-    role: "Social Media Manager",
-    bio: "Manages brand presence across Instagram, LinkedIn and YouTube. Data-driven, creatively consistent.",
-    imageUrl: "",
-  },
-];
+// const teamMembers: TeamMember[] = [
+//   {
+//     name: "[Name]",
+//     role: "Motion Graphics & CGI Lead",
+//     bio: "Creates reels, 3D renders and animations that stop the scroll. Handles all video post-production.",
+//     imageUrl: "",
+//   },
+//   {
+//     name: "[Name]",
+//     role: "Web Developer",
+//     bio: "Builds fast, animated, conversion-focused websites. Next.js specialist with an eye for design.",
+//     imageUrl: "",
+//   },
+//   {
+//     name: "[Name]",
+//     role: "Content Strategist",
+//     bio: "Writes copy that ranks, resonates and converts. SEO-led scripts, captions and long-form content.",
+//     imageUrl: "",
+//   },
+//   {
+//     name: "[Name]",
+//     role: "Social Media Manager",
+//     bio: "Manages brand presence across Instagram, LinkedIn and YouTube. Data-driven, creatively consistent.",
+//     imageUrl: "",
+//   },
+// ];
 
 export default function Team() {
   useEffect(() => {
@@ -317,41 +332,6 @@ export default function Team() {
         >
           {coFounders.map((m, i) => (
             <ScrollReveal key={m.name} delay={0.2 + i * 0.1}>
-              <TeamCard {...m} />
-            </ScrollReveal>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div style={{ borderTop: "0.5px solid #E8E8E6", marginBottom: "64px" }} />
-
-        {/* Rest of team */}
-        <ScrollReveal delay={0.3}>
-          <span
-            style={{
-              fontFamily: "var(--font-dm-sans)",
-              fontSize: "11px",
-              fontWeight: 300,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              color: "#999",
-              display: "block",
-              marginBottom: "32px",
-            }}
-          >
-            The Team
-          </span>
-        </ScrollReveal>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "32px",
-          }}
-        >
-          {teamMembers.map((m, i) => (
-            <ScrollReveal key={m.role} delay={0.35 + i * 0.08}>
               <TeamCard {...m} />
             </ScrollReveal>
           ))}

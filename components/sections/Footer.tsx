@@ -82,9 +82,9 @@ export default function Footer() {
           >
             {/* Replace # with your real social URLs */}
             {[
-              { label: "Instagram", href: "https://instagram.com/techblendstudios" },
+              { label: "Instagram", href: "https://www.instagram.com/techblendstudios.tbs/" },
               { label: "LinkedIn", href: "https://linkedin.com/company/techblendstudios" },
-              { label: "Twitter / X", href: "https://x.com/techblendstudios" },
+              { label: "Twitter / X", href: "https://x.com/techblendstudio" },
             ].map((s) => (
               <a
                 key={s.label}

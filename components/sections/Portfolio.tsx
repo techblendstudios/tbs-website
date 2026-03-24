@@ -1,29 +1,6 @@
-// ══════════════════════════════════════════════════════
-// CONNECTING REAL VIDEOS FROM SUPABASE (optional):
-//
-// 1. Create table in Supabase SQL editor:
-//
-//    CREATE TABLE portfolio_items (
-//      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-//      title text NOT NULL,
-//      category text NOT NULL,
-//      cloudinary_url text NOT NULL,
-//      thumbnail_url text,
-//      tags text[],
-//      featured boolean DEFAULT false,
-//      aspect_ratio text DEFAULT '16/9',
-//      created_at timestamptz DEFAULT now()
-//    );
-//
-// 2. Replace portfolioItems array below with a Supabase fetch:
-//    import { createClient } from '@supabase/supabase-js'
-//    const supabase = createClient(url, key)
-//    const { data } = await supabase.from('portfolio_items').select('*')
-//
-// 3. Replace placeholder cloudinaryUrl values with real Cloudinary URLs
-// ══════════════════════════════════════════════════════
-
 "use client";
+
+import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import VideoCard from "@/components/ui/VideoCard";
@@ -31,84 +8,54 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 type Category = "all" | "motion-graphics" | "animation" | "cgi" | "graphics" | "social";
 
+interface PortfolioItem {
+  id: string;
+  title: string;
+  category: string;
+  cloudinary_url: string;
+  thumbnail_url: string;
+  aspect_ratio: "16/9" | "9/16" | "1/1";
+}
+
 const filters: { key: Category; label: string }[] = [
-  { key: "all", label: "All" },
+  { key: "all",             label: "All" },
   { key: "motion-graphics", label: "Motion Graphics" },
-  { key: "cgi", label: "CGI" },
-  { key: "animation", label: "Animation" },
-  { key: "graphics", label: "Graphics" },
-  { key: "social", label: "Social" },
+  { key: "animation",       label: "Animation" },
+  { key: "social",          label: "Social" },
 ];
 
-const portfolioItems = [
-  // ── Replace cloudinaryUrl with your real Cloudinary video URLs ──
-  {
-    id: 1, title: "Brand Reveal — Architecture Studio",
-    category: "motion-graphics",
-    cloudinaryUrl: "/videos/placeholder-1.mp4",   // → your Cloudinary URL
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
-  {
-    id: 2, title: "Product CGI — Luxury Faucet Brand",
-    category: "cgi",
-    cloudinaryUrl: "/videos/placeholder-2.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
-  {
-    id: 3, title: "Social Reel — Real Estate Campaign",
-    category: "social",
-    cloudinaryUrl: "/videos/placeholder-3.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "9/16" as const,
-  },
-  {
-    id: 4, title: "Motion Logo — Construction Firm",
-    category: "motion-graphics",
-    cloudinaryUrl: "/videos/placeholder-4.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
-  {
-    id: 5, title: "3D Product Showcase — Hardware Brand",
-    category: "cgi",
-    cloudinaryUrl: "/videos/placeholder-5.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
-  {
-    id: 6, title: "Animated Explainer — Architect Portfolio",
-    category: "animation",
-    cloudinaryUrl: "/videos/placeholder-6.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
-  {
-    id: 7, title: "Instagram Reel — Interior Design Brand",
-    category: "social",
-    cloudinaryUrl: "/videos/placeholder-7.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "9/16" as const,
-  },
-  {
-    id: 8, title: "Architectural Walkthrough — Mumbai Tower",
-    category: "cgi",
-    cloudinaryUrl: "/videos/placeholder-8.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
-  {
-    id: 9, title: "Brand Campaign — Product Launch",
-    category: "motion-graphics",
-    cloudinaryUrl: "/videos/placeholder-9.mp4",
-    thumbnailUrl: "",
-    aspectRatio: "16/9" as const,
-  },
+// Shown only while Supabase data is loading
+const FALLBACK_ITEMS: PortfolioItem[] = [
+  { id: "f1", title: "Loading...", category: "motion-graphics", cloudinary_url: "", thumbnail_url: "", aspect_ratio: "16/9" },
+  { id: "f2", title: "Loading...", category: "animation",       cloudinary_url: "", thumbnail_url: "", aspect_ratio: "9/16" },
+  { id: "f3", title: "Loading...", category: "social",          cloudinary_url: "", thumbnail_url: "", aspect_ratio: "9/16" },
+  { id: "f4", title: "Loading...", category: "social",          cloudinary_url: "", thumbnail_url: "", aspect_ratio: "9/16" },
 ];
 
 export default function Portfolio() {
-  const [active, setActive] = useState<Category>("all");
+  const [active, setActive]   = useState<Category>("all");
+  const [items, setItems]     = useState<PortfolioItem[]>(FALLBACK_ITEMS);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from("portfolio_items")
+      .select("id, title, category, cloudinary_url, thumbnail_url, aspect_ratio")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Supabase error:", error.message);
+          setError(error.message);
+          setItems([]);
+        } else if (data && data.length > 0) {
+          setItems(data as PortfolioItem[]);
+        } else {
+          setItems([]);
+        }
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -132,8 +79,8 @@ export default function Portfolio() {
 
   const filtered =
     active === "all"
-      ? portfolioItems
-      : portfolioItems.filter((i) => i.category === active);
+      ? items
+      : items.filter((i) => i.category === active);
 
   return (
     <section
@@ -145,6 +92,7 @@ export default function Portfolio() {
       }}
     >
       <div className="max-w-[1140px] mx-auto px-8">
+
         <ScrollReveal>
           <span className="section-num">03 / Our Work</span>
         </ScrollReveal>
@@ -169,14 +117,7 @@ export default function Portfolio() {
 
         {/* Filters */}
         <ScrollReveal delay={0.2}>
-          <div
-            style={{
-              display: "flex",
-              gap: "8px",
-              flexWrap: "wrap",
-              marginBottom: "40px",
-            }}
-          >
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "40px" }}>
             {filters.map((f) => (
               <button
                 key={f.key}
@@ -189,6 +130,29 @@ export default function Portfolio() {
             ))}
           </div>
         </ScrollReveal>
+
+        {/* Error state */}
+        {error && (
+          <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "13px", color: "#999", marginBottom: "32px" }}>
+            Could not load portfolio. Check your Supabase connection.
+          </p>
+        )}
+
+        {/* Empty state */}
+        {!loading && !error && filtered.length === 0 && (
+          <div
+            style={{
+              padding: "80px 0",
+              textAlign: "center",
+              fontFamily: "var(--font-dm-sans)",
+              fontSize: "14px",
+              fontWeight: 300,
+              color: "#999",
+            }}
+          >
+            No videos in this category yet.
+          </div>
+        )}
 
         {/* Grid */}
         <motion.div
@@ -205,16 +169,16 @@ export default function Portfolio() {
                 key={item.id}
                 layout
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: loading ? 0.4 : 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
                 <VideoCard
                   title={item.title}
                   category={item.category as any}
-                  cloudinaryUrl={item.cloudinaryUrl}
-                  thumbnailUrl={item.thumbnailUrl}
-                  aspectRatio={item.aspectRatio}
+                  cloudinaryUrl={item.cloudinary_url}
+                  thumbnailUrl={item.thumbnail_url}
+                  aspectRatio={item.aspect_ratio}
                 />
               </motion.div>
             ))}
@@ -222,18 +186,16 @@ export default function Portfolio() {
         </motion.div>
 
         {/* Footer link */}
-        <ScrollReveal delay={0.3}>
-          <div style={{ marginTop: "56px", textAlign: "center" }}>
-            <a
-              href="/work"
-              className="cta-link"
-              data-cursor
-              style={{ fontSize: "14px" }}
-            >
-              View Full Portfolio →
-            </a>
-          </div>
-        </ScrollReveal>
+        {!loading && filtered.length > 0 && (
+          <ScrollReveal delay={0.3}>
+            <div style={{ marginTop: "56px", textAlign: "center" }}>
+              <a href="#" className="cta-link" data-cursor style={{ fontSize: "14px" }}>
+                View Full Portfolio →
+              </a>
+            </div>
+          </ScrollReveal>
+        )}
+
       </div>
     </section>
   );

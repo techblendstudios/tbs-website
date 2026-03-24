@@ -129,26 +129,10 @@ mark {
 }
 .service-row:hover::after { width: 100%; }
 
-/* ── Plan card invert ── */
+/* ── Plan card ── */
 .plan-card {
-  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
   border: 1px solid var(--gray-200);
 }
-.plan-card:hover {
-  background: var(--black);
-  color: var(--white);
-  border-color: var(--black);
-}
-.plan-card:hover .plan-price,
-.plan-card:hover .plan-name,
-.plan-card:hover .plan-feature,
-.plan-card:hover .plan-cat,
-.plan-card:hover .plan-cta,
-.plan-card:hover .plan-note {
-  color: var(--white) !important;
-}
-.plan-card:hover .plan-rule { background: rgba(255,255,255,0.15); }
-.plan-card:hover .plan-check { color: rgba(255,255,255,0.5); }
 
 /* ── Video card ── */
 .video-card { position: relative; overflow: hidden; background: var(--black); }

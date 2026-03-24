@@ -25,10 +25,8 @@ function PlanCard({ name, price, tag, features, recommended, cta, accentTop }: P
         padding: accentTop ? "64px 40px 48px" : "48px 40px",
         position: "relative",
         background: "#fff",
-        cursor: "none",
         borderTop: accentTop ? "2px solid #0A0A0A" : "1px solid #E8E8E6",
       }}
-      data-cursor
     >
       {/* Top bar */}
       <div
@@ -148,7 +146,6 @@ function PlanCard({ name, price, tag, features, recommended, cta, accentTop }: P
       <a
         href="#contact"
         className="plan-cta cta-link"
-        data-cursor
         style={{
           fontFamily: "var(--font-dm-sans)",
           fontSize: "14px",

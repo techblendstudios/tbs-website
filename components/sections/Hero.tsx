@@ -75,7 +75,7 @@ export default function Hero() {
               marginBottom: "40px",
             }}
           >
-            Pune, India — Est. 2019
+            Pune, India — Est. 2025
           </motion.span>
 
           <motion.h1
@@ -160,7 +160,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* RIGHT — Video reel */}
+        {/* RIGHT — Video reel 
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -173,7 +173,7 @@ export default function Hero() {
             overflow: "hidden",
           }}
         >
-          {/* 
+          
             ══════════════════════════════════════
             REPLACE THIS VIDEO WITH YOUR REEL:
             Upload your hero showreel to Cloudinary,
@@ -181,7 +181,7 @@ export default function Hero() {
             e.g. https://res.cloudinary.com/YOUR_CLOUD/video/upload/
                  q_auto,f_auto/tbs/hero-reel.mp4
             ══════════════════════════════════════
-          */}
+          
           <video
             ref={videoRef}
             autoPlay
@@ -200,11 +200,9 @@ export default function Hero() {
               transition: "opacity 0.5s ease",
             }}
           >
-            {/* Replace this src with your Cloudinary URL */}
             <source src="/videos/hero-reel.mp4" type="video/mp4" />
           </video>
 
-          {/* Fallback when no video */}
           {!videoLoaded && (
             <div
               style={{
@@ -242,7 +240,6 @@ export default function Hero() {
             </div>
           )}
 
-          {/* Corner label */}
           <div
             style={{
               position: "absolute",
@@ -259,6 +256,7 @@ export default function Hero() {
             TBS Showreel 2025
           </div>
         </motion.div>
+        */}
       </div>
     </section>
   );

@@ -35,7 +35,6 @@ export default function Navbar() {
           transition: "transform 0.4s cubic-bezier(0.76,0,0.24,1)",
         }}
         className="fixed top-0 left-0 right-0 z-50 bg-white"
-        style2="border-bottom: 0.5px solid #E8E8E6;"
       >
         <div
           className="max-w-[1140px] mx-auto px-8 flex items-center justify-between"
